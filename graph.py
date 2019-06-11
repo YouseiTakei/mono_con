@@ -33,27 +33,23 @@ class Graph:
         self.val_x[self.length-1] = x
         self.val_y[self.length-1] = y - self.bias
 
-    def render(self):
+    def render(self, num):
+        plt.subplot(2, 1, num)
         line, = plt.plot(self.val_x, self.val_y, "^--", markersize=1, label="sin") # (x,y)のプロット
         line.set_ydata(self.val_y)                        # y値を更新
+
         plt.xlabel("x")                                   # x軸ラベル
         plt.ylabel("y")                                   # y軸ラベル
-        plt.legend()                                      # 凡例表示
-        plt.grid()                                        # グリッド表示
-        plt.title(self.title)                             # グラフタイトル
-        plt.xlim([min(self.val_x), max(self.val_x)])      # x軸範囲
         plt.ylim([-1,1])                                  # y軸範囲
-        plt.draw()                                        # グラフの描画
-        plt.pause(0.01)
-        plt.clf()                                         # 画面初期化
+        plt.xlim([min(self.val_x), max(self.val_x)])      # x軸範囲
+        plt.grid()                                        # グリッド表示
+        ### plt.draw()                                        # グラフの描画
 
 
 def main():
-    (x, y) = (0, 0)     # 初期値
     plt.ion()           # 対話モードオン
-
-    g1 = Graph()
-    g2 = Graph()
+    g1   = Graph()
+    g2   = Graph()
     frame= 0
 
     while True:
@@ -61,8 +57,16 @@ def main():
             frame += 1
             if math.sin(frame/10) >= 0.8:
                 play(70)
+
             g1.update(frame/10, math.sin(frame/10))
-            g1.render()
+            g1.render(1)
+
+            g2.update(frame/10, math.cos(frame/10))
+            g2.render(2)
+            plt.draw()
+
+            plt.pause(0.01)
+            plt.clf()                                         # 画面初期化
         except KeyboardInterrupt:
             break
 
