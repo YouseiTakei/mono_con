@@ -25,7 +25,8 @@ def setup():
     v = Vector(0, 0, 0)
     ### --------------------------------------------------
     global reader
-    reader = Reader('COM3')
+    reader = Reader('/dev/ttyUSB0')
+    ### reader = Reader('/dev/COM3')
     reader.start(0)
     reader.start(1)
     reader.start(2)
@@ -50,12 +51,12 @@ def draw():
     graph_y.update( frame, v.y )
     graph_z.update( frame, v.z )
 
-    graph_x.render(1)
-    graph_y.render(2)
-    graph_z.render(3)
+    graph_x.render(1, "x")
+    graph_y.render(2, "y")
+    graph_z.render(3, "z")
 
     plt.draw()
-    plt.pause(0.01)### 05)
+    plt.pause(0.01) ### 05)
     plt.clf()
 
     if graph_x.val_y[-1] > np.std(graph_x.val_y)*3:

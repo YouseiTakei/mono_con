@@ -33,13 +33,13 @@ class Graph:
         self.val_x[self.length-1] = x
         self.val_y[self.length-1] = y - self.bias
 
-    def render(self, num):
+    def render(self, num, label):
         plt.subplot(4, 1, num)
         line, = plt.plot(self.val_x, self.val_y, "o", markersize=1, label="sin") # (x,y)のプロット
         line.set_ydata(self.val_y)                        # y値を更新
 
         plt.xlabel("x")                                   # x軸ラベル
-        plt.ylabel("y")                                   # y軸ラベル
+        plt.ylabel(label)                                   # y軸ラベル
         plt.ylim([-1,1])                                  # y軸範囲
         plt.xlim([min(self.val_x), max(self.val_x)])      # x軸範囲
         plt.grid()                                        # グリッド表示
@@ -59,10 +59,10 @@ def main():
                 play(70)
 
             g1.update(frame/10, math.sin(frame/10))
-            g1.render(1)
+            g1.render(1, "x")
 
             g2.update(frame/10, math.cos(frame/10))
-            g2.render(2)
+            g2.render(2, "y")
             plt.draw()
 
             plt.pause(0.01)
