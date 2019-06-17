@@ -34,8 +34,8 @@ class Graph:
         self.val_y[self.length-1] = y - self.bias
 
     def render(self, num):
-        plt.subplot(2, 1, num)
-        line, = plt.plot(self.val_x, self.val_y, "^--", markersize=1, label="sin") # (x,y)のプロット
+        plt.subplot(4, 1, num)
+        line, = plt.plot(self.val_x, self.val_y, "o", markersize=1, label="sin") # (x,y)のプロット
         line.set_ydata(self.val_y)                        # y値を更新
 
         plt.xlabel("x")                                   # x軸ラベル
