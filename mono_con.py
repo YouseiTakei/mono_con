@@ -30,37 +30,41 @@ def setup():
     reader.start(0)
     reader.start(1)
     reader.start(2)
+    reader.start(3)
+    reader.start(4)
     ###  ------------------------------------------------
-    global graph_x, graph_y, graph_z
-    graph_x = Graph()
-    graph_y = Graph()
-    graph_z = Graph()
-    graph_x.bias = 0.5
+    global graph_a, graph_l, graph_r
+    graph_a = Graph()
+    graph_l = Graph()
+    graph_r = Graph()
+    graph_a.bias = 0.5
+    graph_l.bias = 0.5
+    graph_r.bias = 0.5
     ### --------------------------------------------------
 
 def draw():
     global frame
     frame += 1
     ### draw init ----------------------------------------
-    v.x = reader.analog[0].value
-    v.y = reader.analog[1].value
     v.z = reader.analog[2].value
-    v.normalize()
+    v.y = reader.analog[3].value
+    v.x = reader.analog[4].value
+    ### v.normalize()
     ### render graph -------------------------------------
-    graph_x.update( frame, v.x )
-    graph_y.update( frame, v.y )
-    graph_z.update( frame, v.z )
+    graph_a.update( frame, v.distance() )
+    graph_l.update( frame, reader.analog[0].value )
+    graph_r.update( frame, reader.analog[1].value )
 
-    graph_x.render(1, "x")
-    graph_y.render(2, "y")
-    graph_z.render(3, "z")
+    graph_a.render(1, "dis")
+    graph_l.render(3, "l")
+    graph_r.render(5, "r")
 
     plt.draw()
     plt.pause(0.01) ### 05)
     plt.clf()
 
-    if graph_x.val_y[-1] > np.std(graph_x.val_y)*3:
-        play (60, attack=0.5, decay=1, sustain_level=0.4, sustain=0.1, release=0.1)
+    ### if graph_x.val_y[-1] > np.std(graph_x.val_y)*3:
+        ### play (60, attack=0.5, decay=1, sustain_level=0.4, sustain=0.1, release=0.1)
 
 
 if __name__ == '__main__':

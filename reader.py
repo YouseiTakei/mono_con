@@ -21,6 +21,7 @@ class Reader:
         def print_value(self, data):
             print("%f,%f" % (self.timestamp, data))
             self.timestamp += (1 / self.samplingRate)
+            self.set_value(data)
         def set_value(self, data):
             self.value = data
 
