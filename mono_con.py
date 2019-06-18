@@ -119,7 +119,7 @@ def get_args():
 
     return parser.parse_args()
 
-if __name__ == '__main__':
+def main():
     setup()
     while True:
         try:
@@ -129,3 +129,6 @@ if __name__ == '__main__':
     plt.close() # 画面を閉じる
     reader.stop()
     pygame.mixer.quit()
+
+if __name__ == '__main__':
+    main()
