@@ -30,29 +30,32 @@ def setup():
 
     plt.ion()           # 対話モードオン
 
-    global frame
+    global frame ### frame number
     frame = 0
     ###  ------------------------------------------------
-    global v, v1
+    global v ### , v1
     v = Vector(0, 0, 0)
-    v1 = Vector(0, 0, 0)
+    ### v1 = Vector(0, 0, 0)
     ### --------------------------------------------------
+    ### initialize reader
     global reader
     reader = Reader(args.port)
-    reader.start(0)
-    reader.start(1)
-    reader.start(2)
-    reader.start(3)
-    reader.start(4)
+    reader.start(0) ### left bending sensor
+    reader.start(1) ### right bending sensor
+    reader.start(2) ### Acceleration in the z-axis direction
+    reader.start(3) ### Acceleration in the y-axis direction
+    reader.start(4) ### Acceleration in the x-axis direction
     ###  ------------------------------------------------
+    ### initialize graph
     global graph_a, graph_l, graph_r
-    graph_a = Graph()
-    graph_l = Graph()
-    graph_r = Graph()
+    graph_a = Graph() ### Acceleration
+    graph_l = Graph() ### left bending sensor value
+    graph_r = Graph() ### right bending sensor value
     graph_a.bias = 0.5
     graph_l.bias = 0.5
     graph_r.bias = 0.5
     ### --------------------------------------------------
+    ### initialize sound
     global sound
     pygame.mixer.init(frequency=22050, size=8, channels=1, buffer=1024)
     sound = pygame.mixer.Sound(args.file)
@@ -61,6 +64,7 @@ def draw():
     global frame
     frame += 1
     ### draw init ----------------------------------------
+    ### get current sensor value
     v.z = reader.analog[2].value
     v.y = reader.analog[3].value
     v.x = reader.analog[4].value
