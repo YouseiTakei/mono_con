@@ -29,8 +29,9 @@ def setup():
     v1 = Vector(0, 0, 0)
     ### --------------------------------------------------
     global reader
-    ### reader = Reader('/dev/ttyUSB0')
-    reader = Reader('COM4')
+    reader = Reader('/dev/ttyACM0')
+    ### ### ### reader = Reader('COM4')
+
     reader.start(0)
     reader.start(1)
     reader.start(2)
@@ -62,23 +63,26 @@ def draw():
     graph_l.update( frame, reader.analog[0].value )
     graph_r.update( frame, reader.analog[1].value )
 
-    graph_a.render(1, "dis")
-    graph_l.render(3, "l")
-    graph_r.render(5, "r")
 
-    plt.draw()
-    plt.pause(0.01) ### 05)
-    plt.clf()
+    #graph_a.render(1, "dis")
+    #graph_l.render(3, "l")
+    #graph_r.render(5, "r")
+
+    #plt.draw()
+    #plt.pause(0.01) ### 05)
+    #plt.clf()
 
     b_a = np.std(graph_a.val_y[-3:])            > 0.01
     b_l = graph_l.val_y[-2] - graph_l.val_y[-1] > 0.05
     b_r = graph_r.val_y[-2] - graph_r.val_y[-1] > 0.05
     b_result = b_a and (b_l or b_r)
     if frame <  50: return 0
+    if frame == 50: print('start')
 
     print('a: {}\t l: {}\t r: {}\t all: {}'.format(b_a, b_l, b_r, b_result))
 
     if  b_result :
+        print('success')
         sound.play()
         ### play (60, amp=1, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
     else:
