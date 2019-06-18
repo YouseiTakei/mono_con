@@ -88,7 +88,7 @@ def draw():
         return 0
 
     if args.log:
-        print('a: {}\t l: {}\t r: {}\t all: {}'.format(b_a, b_l, b_r, b_result))
+        print('a: {:5}, l: {:5}, r: {:5}, all: {:5}'.format(b_a, b_l, b_r, b_result))
 
     if  b_result:
         if args.log:
@@ -105,11 +105,11 @@ def get_args():
                         help='show log')
     parser.add_argument('--port',
                         type=str, default='/dev/ttyACM0',
-                        help='set connected port')
+                        help='set connected port, default is /dev/ttyACM0')
     parser.add_argument('--file',
                         type=str,
                         default='sound/machdash1.wav',
-                        help='specify sound file path')
+                        help='specify sound file path, default is sound/machdash1.wav')
 
     return parser.parse_args()
 
