@@ -18,7 +18,7 @@ class Graph:
         ### value of window--------------------------------
         self.title = 'Graph'
         ### input data ------------------------------------
-        self.length= 100### number of graph potints
+        self.length= 50 ### number of graph potints
         self.val_x = [0] * self.length
         self.val_y = [0] * self.length
         self.bias  = 0
@@ -40,7 +40,7 @@ class Graph:
 
         plt.xlabel("x")                                   # x軸ラベル
         plt.ylabel(label)                                   # y軸ラベル
-        plt.ylim([-1,1])                                  # y軸範囲
+        plt.ylim([-0.5,0.5])                                  # y軸範囲
         plt.xlim([min(self.val_x), max(self.val_x)])      # x軸範囲
         plt.grid()                                        # グリッド表示
         ### plt.draw()                                        # グラフの描画

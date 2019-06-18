@@ -4,17 +4,20 @@
 
 
 ### python
-None
-### my created
 import math
 import numpy as np
+import pygame
+
+from pygame.locals import *
+from matplotlib    import pyplot as plt
+### from psonic        import *
+from pyfirmata2    import Arduino, util
+
+### my created
 from graph   import Graph
 from vector  import Vector
 from reader  import Reader
-from matplotlib import pyplot as plt
 
-from pyfirmata2 import Arduino, util
-from psonic import *
 
 def setup():
     plt.ion()           # 対話モードオン
@@ -42,6 +45,9 @@ def setup():
     graph_l.bias = 0.5
     graph_r.bias = 0.5
     ### --------------------------------------------------
+    global sound
+    pygame.mixer.init(frequency = 22050, size = 8, channels = 1, buffer = 1024)
+    sound = pygame.mixer.Sound("sound/machdash1.wav")
 
 def draw():
     global frame
@@ -64,16 +70,21 @@ def draw():
     plt.pause(0.01) ### 05)
     plt.clf()
 
-    bool1 = graph_l.val_y[-2] - graph_l.val_y[-1] > 0.01 + np.mean(graph_a.val_y[-10: ])
-    bool2 = graph_r.val_y[-2] - graph_r.val_y[-1] > 0.01 + np.mean(graph_a.val_y[-10: ])
-    bool3 = graph_a.val_y[-2] - graph_a.val_y[-1] > 0.01 + np.mean(graph_a.val_y[-10: ])
+    b_a = np.std(graph_a.val_y[-3:])            > 0.01
+    b_l = graph_l.val_y[-2] - graph_l.val_y[-1] > 0.05
+    b_r = graph_r.val_y[-2] - graph_r.val_y[-1] > 0.05
+    b_result = b_a and (b_l or b_r)
+    if frame <  50: return 0
 
-    if frame <  100: return 0
-    print(bool1, bool2, bool3)
-    if  (bool1 or bool2) and bool3:
-        play (60, amp=1, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
+    print('a: {}\t l: {}\t r: {}\t all: {}'.format(b_a, b_l, b_r, b_result))
+
+    if  b_result :
+        sound.play()
+        ### play (60, amp=1, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
     else:
-        play (60, amp=0, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
+        pass
+        ### sound.stop()
+        ### play (60, amp=0, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
 
 if __name__ == '__main__':
     setup()
@@ -84,3 +95,4 @@ if __name__ == '__main__':
             break
     plt.close() # 画面を閉じる
     reader.stop()
+    pygame.mixer.quit()
