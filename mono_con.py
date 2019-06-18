@@ -63,16 +63,17 @@ def setup():
 def draw():
     global frame
     frame += 1
-    ### draw init ----------------------------------------
-    ### get current sensor value
+    ### get current sensor value -------------------------
+    b_l = reader.analog[0].value
+    b_r = reader.analog[1].value
     v.z = reader.analog[2].value
     v.y = reader.analog[3].value
     v.x = reader.analog[4].value
     ### v.normalize()
     ### render graph -------------------------------------
     graph_a.update(frame, v.distance())
-    graph_l.update(frame, reader.analog[0].value)
-    graph_r.update(frame, reader.analog[1].value)
+    graph_l.update(frame, b_l)
+    graph_r.update(frame, b_r)
 
     if args.graph:
         graph_a.render(1, "dis")
@@ -83,6 +84,7 @@ def draw():
         plt.pause(0.01) ### 05)
         plt.clf()
 
+    ### Judgment of how to sweep -------------------------
     b_a = np.std(graph_a.val_y[-3:]) > 0.01
     b_l = graph_l.val_y[-2] - graph_l.val_y[-1] > 0.05
     b_r = graph_r.val_y[-2] - graph_r.val_y[-1] > 0.05
