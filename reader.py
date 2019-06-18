@@ -49,7 +49,7 @@ class Reader:
         self.board.exit()
 
 if __name__ == '__main__':
-    reader = Reader('COM3')
+    reader = Reader('COM4')
 
     reader.start(0)
     reader.start(1)

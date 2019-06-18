@@ -21,12 +21,13 @@ def setup():
     global frame
     frame = 0
     ###  ------------------------------------------------
-    global v
-    v = Vector(0, 0, 0)
+    global v, v1
+    v  = Vector(0, 0, 0)
+    v1 = Vector(0, 0, 0)
     ### --------------------------------------------------
     global reader
-    reader = Reader('/dev/ttyUSB0')
-    ### reader = Reader('/dev/COM3')
+    ### reader = Reader('/dev/ttyUSB0')
+    reader = Reader('COM4')
     reader.start(0)
     reader.start(1)
     reader.start(2)
@@ -63,9 +64,16 @@ def draw():
     plt.pause(0.01) ### 05)
     plt.clf()
 
-    ### if graph_x.val_y[-1] > np.std(graph_x.val_y)*3:
-        ### play (60, attack=0.5, decay=1, sustain_level=0.4, sustain=0.1, release=0.1)
+    bool1 = graph_l.val_y[-2] - graph_l.val_y[-1] > 0.01 + np.mean(graph_a.val_y[-10: ])
+    bool2 = graph_r.val_y[-2] - graph_r.val_y[-1] > 0.01 + np.mean(graph_a.val_y[-10: ])
+    bool3 = graph_a.val_y[-2] - graph_a.val_y[-1] > 0.01 + np.mean(graph_a.val_y[-10: ])
 
+    if frame <  100: return 0
+    print(bool1, bool2, bool3)
+    if  (bool1 or bool2) and bool3:
+        play (60, amp=1, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
+    else:
+        play (60, amp=0, attack=0, decay=1, sustain_level=0,sustain=0, release=0)
 
 if __name__ == '__main__':
     setup()
