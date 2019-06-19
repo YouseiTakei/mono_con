@@ -59,6 +59,7 @@ def setup():
     global sound
     pygame.mixer.init(frequency=22050, size=8, channels=1, buffer=1024)
     sound = pygame.mixer.Sound(args.file)
+    sound.set_volume(1.0) ### set max volume level
 
 def draw():
     global frame
